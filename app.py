@@ -18,6 +18,7 @@ st.markdown("**Verteilung nach Produkten (Summe = 100 %)**")
 anteil_fix = st.slider("Fix (%)", 0, 100, 50)
 anteil_var = st.slider("Variabel (%)", 0, 100 - anteil_fix, 30)
 anteil_mix = 100 - anteil_fix - anteil_var
+st.markdown(f"**Gemischt (%) automatisch berechnet: {anteil_mix}%**")
 
 def runde_auf_naechstes_viertel(zins):
     return math.ceil(zins * 400) / 400  # 1/4 % = 0.0025
@@ -33,8 +34,8 @@ def berechne_ertrag(np, z_fix, z_var, z_mix, f, v, m):
 szenarien = {
     "IST": (neuproduktion, aufschlag_fix, aufschlag_var, aufschlag_mix),
     "1. Halbierte Produktion": (neuproduktion / 2, aufschlag_fix, aufschlag_var, aufschlag_mix),
-    "2. Angepasste Preisliste (+0,25%)": (neuproduktion, aufschlag_fix + 0.0025, aufschlag_var + 0.0025, aufschlag_mix + 0.0025),
-    "3. Reduzierte Preisliste bei Halbierung (-0,25%)": (neuproduktion / 2, aufschlag_fix - 0.0025, aufschlag_var - 0.0025, aufschlag_mix - 0.0025)
+    "2. Reduzierter Aufschlag (-0,50%)": (neuproduktion, aufschlag_fix - 0.005, aufschlag_var - 0.005, aufschlag_mix - 0.005),
+    "3. Halbierte Produktion & -0,50%-Aufschlag": (neuproduktion / 2, aufschlag_fix - 0.005, aufschlag_var - 0.005, aufschlag_mix - 0.005)
 }
 
 data = []
@@ -43,7 +44,7 @@ for name, (np, af, av, am) in szenarien.items():
     zins_var = runde_auf_naechstes_viertel(euribor) + av
     zins_mix_fix = runde_auf_naechstes_viertel(irs) + am
     zins_mix_var = runde_auf_naechstes_viertel(euribor) + am
-    zins_mix = (zins_mix_fix * 15 + zins_mix_var * 15) / 30  # Annahme: Restlaufzeit = 15 Jahre
+    zins_mix = (zins_mix_fix * 15 + zins_mix_var * 15) / 30  # 15 Jahre fix + 15 Jahre variabel
 
     ertrag = berechne_ertrag(np, zins_fix, zins_var, zins_mix, anteil_fix, anteil_var, anteil_mix)
     data.append([name, np, zins_fix, zins_var, zins_mix, ertrag])
