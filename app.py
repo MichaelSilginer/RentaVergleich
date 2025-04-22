@@ -26,10 +26,10 @@ def berechne_ertrag(np, z_fix, z_var, z_mix, f, v, m):
 
 # Szenarien
 szenarien = {
-    "IST": (neuproduktion, aufsclag_fix, aufsclag_var, aufsclag_mix),
-    "1. Halbierte Produktion": (neuproduktion / 2, aufsclag_fix, aufsclag_var, aufsclag_mix),
-    "2. Angepasste Preisliste (+0,25%)": (neuproduktion, aufsclag_fix + 0.0025, aufsclag_var + 0.0025, aufsclag_mix + 0.0025),
-    "3. Reduzierte Preisliste bei Halbierung (-0,25%)": (neuproduktion / 2, aufsclag_fix - 0.0025, aufsclag_var - 0.0025, aufsclag_mix - 0.0025)
+    "IST": (neuproduktion, aufschlag_fix, aufschlag_var, aufschlag_mix),
+    "1. Halbierte Produktion": (neuproduktion / 2, aufschlag_fix, aufschlag_var, aufschlag_mix),
+    "2. Angepasste Preisliste (+0,25%)": (neuproduktion, aufschlag_fix + 0.0025, aufschlag_var + 0.0025, aufschlag_mix + 0.0025),
+    "3. Reduzierte Preisliste bei Halbierung (-0,25%)": (neuproduktion / 2, aufschlag_fix - 0.0025, aufschlag_var - 0.0025, aufschlag_mix - 0.0025)
 }
 
 data = []
