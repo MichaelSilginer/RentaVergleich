@@ -1,6 +1,7 @@
 
 import streamlit as st
 import pandas as pd
+import math
 
 st.title("Rentabilitätsvergleich Wohnbaukredite")
 
@@ -17,8 +18,8 @@ anteil_fix = st.slider("Fix %", 0, 100, 50)
 anteil_var = st.slider("Variabel %", 0, 100 - anteil_fix, 30)
 anteil_mix = 100 - anteil_fix - anteil_var
 
-def runde_zins(z):
-    return round(z * 4) / 4
+def runde_auf_viertel(zins):
+    return math.ceil(zins * 4) / 4
 
 def berechne_ertrag(np, z_fix, z_var, z_mix, f, v, m):
     z_gesamt = (z_fix * f + z_var * v + z_mix * m) / 100
@@ -34,9 +35,9 @@ szenarien = {
 
 data = []
 for name, (np, af, av, am) in szenarien.items():
-    z_fix = runde_zins(irs) + af
-    z_var = runde_zins(euribor) + av
-    z_mix = ((runde_zins(irs) + am) + z_var) / 2
+    z_fix = runde_auf_viertel(irs) + af
+    z_var = runde_auf_viertel(euribor) + av
+    z_mix = ((runde_auf_viertel(irs) + am) + z_var) / 2
     ertrag = berechne_ertrag(np, z_fix, z_var, z_mix, anteil_fix, anteil_var, anteil_mix)
     data.append([name, np, z_fix, z_var, z_mix, ertrag])
 
